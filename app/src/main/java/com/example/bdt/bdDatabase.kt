@@ -7,7 +7,9 @@ import androidx.room.RoomDatabase
 
 @Database (entities = [DB::class],version = 1 )
 abstract class bdDatabase:RoomDatabase() {
-    abstract val bddaoVal:bddao
+
+    abstract fun bdDao() : bddao
+    //abstract val bddaoVal:bddao
     companion object{
         @Volatile
         private var INSTANCE:bdDatabase?=null

@@ -5,12 +5,16 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-
+private lateinit var bDViewModel: bdViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -20,12 +24,24 @@ class MainActivity : AppCompatActivity() {
 //            applicationContext,
 //            bdDatabase::class.java, "birthday_database"
 //        ).build()
-        val testing = bdDatabase.getInstance(application)
      //   testing.insertDB( DB(1,"asd","asd"))
+
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
+        val adapter = bdAdapter(this)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager= LinearLayoutManager(this)
+        bDViewModel = ViewModelProvider(this).get(bdViewModel::class.java)
+        bDViewModel.allbd.observe(this, Observer {
+          adapter.setBDS(it)
+        })
+
 
 
         fab.setOnClickListener {
-            //val application = requireNotNull(this).application
+
+             // newbd.name="ihihi"
+              //newbd.dob="asdad"
+            bDViewModel.insertBD(DB(2,"dasdd","sdasd"))
         }
 
     }
