@@ -5,10 +5,10 @@ import androidx.room.*
 
 @Dao
 interface bddao {
-   //@Insert
-    //suspend fun insertDB(db: DB)
-    @Query ("insert into birthday('name','dob') values( :db ,:db)")
+   @Insert
     suspend fun insertDB(db: DB)
+   // @Query ("insert into birthday('name','dob') values( :db ,:db)")
+    //suspend fun insertDB(db: DB)
 
     @Update
     suspend fun updateBD(bd:DB)

@@ -1,10 +1,13 @@
 package com.example.bdt
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,7 +32,7 @@ private lateinit var bDViewModel: bdViewModel
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
         val adapter = bdAdapter(this)
         recyclerView.adapter = adapter
-        recyclerView.layoutManager= LinearLayoutManager(this)
+        recyclerView.layoutManager= LinearLayoutManager(this) as RecyclerView.LayoutManager?
         bDViewModel = ViewModelProvider(this).get(bdViewModel::class.java)
         bDViewModel.allbd.observe(this, Observer {
           adapter.setBDS(it)
@@ -41,11 +44,40 @@ private lateinit var bDViewModel: bdViewModel
 
              // newbd.name="ihihi"
               //newbd.dob="asdad"
-            bDViewModel.insertBD(DB(2,"dasdd","sdasd"))
+            //bDViewModel.insertBD(DB(0,"dasdd",12))
+            val test:ArrayList<DB> = ArrayList()
+            test.add(DB(1,"2",2))
+
+            adapter.setBDS(test)
+
+           // val intent = Intent(this , AddActivity::class.java)
+         //   startActivityForResult(intent , REQUEST_CODE)
+
         }
 
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+      //  super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode ==REQUEST_CODE){
+            if(resultCode== Activity.RESULT_OK) {
+                val _name: String? = data?.getStringExtra(AddActivity.EXTRA_NAME)
+                val _dob: Long? = data?.getLongExtra(AddActivity.EXTRA_DOB,0)
+                val bd: DB = DB(id = 0, name = _name!!, dob = _dob!!)
+
+
+            }
+
+        }
+
+super.onActivityResult(requestCode, resultCode, data)
+    }
+
+
+companion object{
+    const val REQUEST_CODE = 1
+
+}
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
